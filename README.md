@@ -26,11 +26,13 @@ Open and log in to Azure: [https://azure.microsoft.com/](https://azure.microsoft
 - [Step 3 - Create a Domain Admin User](#step-3---create-a-domain-admin-user)
 - [Step 4 - Join Client VM to the Domain](#step-4---join-client-vm-to-the-domain)
 - [Step 5 - Verify Client VM is connected to the Domain](#step-5---verify-client-vm-is-connected-to-the-domain)
+- [Step 6 - Setup Remote Desktop Access for Users on Client VM](#step-6---setup-remote-desktop-access-for-users-on-client-vm)
+- [Step 7 - Create Employee (Client) Users in Active Directory](#step-7---create-employee-(client)-users-in-active-directory)
 
 ---
 
 ### Step 1 - Install Active Directory Domain Services
-(why)
+Active Directory is a directory service developed by Microsoft for Windows domain networks. It is used to store information about network objects, such as users, computers, and resources, in a structured format. It allows administrators to manage permissions and access to network resources efficiently. Active Directory Domain Services (AD DS) is the core component of Active Directory, responsible for handling authentication and authorization processes.
 
 Using the Public IP Address of your Domain Controller VM, remote desktop into your Domain Controller VM. Server Manager should boot once you log in. If not, you can find it within the start menu.
 
@@ -46,7 +48,7 @@ Using the Public IP Address of your Domain Controller VM, remote desktop into yo
 ---
 
 ### Step 2 - Configure Active Directory to become a Domain Controller
-(why)
+Technically, up to this point we’ve only created a Windows Server. By promoting this server to a Domain Controller, we enable it to fully utilize Active Directory Domain Services (AD DS). This allows centralized management of users, computers, and security policies within the domain.
 
 Inside the Server Manager click the flag icon at the top of the screen and select `Promote this server to a domain controller`.
 - Click `Add a new forest`.
@@ -70,8 +72,7 @@ After instillation the VM will restart and you will need to reconnect via Remote
 ---
 
 ### Step 3 - Create a Domain Admin User
-(what is a domain admin user)
-
+A Domain Administrator (or Domain Admin user) is a user account in Active Directory that has full administrative privileges over the domain.
 
 From the start menu click the folder for `Windows Administrative Tools` and select `Active Directory Users and Computers`. 
 
@@ -86,7 +87,7 @@ First click the down arrow for `mydomain.com` to expand the Containers and OU's.
 
 ***Normally you wouldn't use an underscore but for the mock environment it makes the folder easier to find.***
 
-Create an Admin User.
+**Create an Admin User.**
 
 - Right click on the `_ADMINS OU` → Select `New` → Click `User`.
 - Create a Name, user logon name and password for your user.
@@ -96,7 +97,7 @@ Create an Admin User.
 
 [pic 2.7]
 
-Set the User as an Admin
+**Set the User as an Admin.**
 
 - Open the `_ADMIN OU` and right click on the Admin User's name → Select `Properties`.
 - Click the tab `Member Of` → Select `Add`.
@@ -108,7 +109,7 @@ Set the User as an Admin
 ---
 
 ### Step 4 - Join Client VM to the Domain
-(why)
+Joining the Client VM to the domain connects it to the Active Directory environment managed by the Domain Controller. This allows the Client VM to use domain credentials, receive Group Policies, and access shared resources within the domain.
 
 - Logon to the Client VM via Remote Desktop Connection using the original user name and password you created when first setting up the VM.
 - Right click the start menu and select `System`.
@@ -125,7 +126,6 @@ Set the User as an Admin
 ---
 
 ### Step 5 - Verify Client VM is connected to the Domain
-(why)
 
 - Logon to the DC-1 VM via Remote Desktop Connection as the Admin User we created in Step 3.
 - Use DC-1's VM Public IP Address.
@@ -137,3 +137,32 @@ From the start menu open `Active Directory Users and Computers`.
 - Click on the `Computers` container and verify the Client VM shows up.
 
 [pic 3.1]
+
+---
+### Step 6 - Setup Remote Desktop Access for Users on Client VM
+Setting up Remote Desktop Access allows authorized domain users (employees) to connect remotely to the Client VM over the network.
+
+- Right click the start menu and select `System`.
+- Click on `Remote desktop` on the right hand menu.
+- Under User accounts click on `Select user that can remotely access this PC`.
+- Click `Add` → Type `domain users` in the object names box and click `Check Names` → Click `OK`.
+
+[pic 3.2]
+
+---
+
+### Step 7 - Create Employee (Client) Users in Active Directory
+These will be the domain user accounts that will represent employees.
+
+- From the statr menu open `Active Directory Users and Computers`.
+- Click on `mydomian.com` → Right click on the OU `_EMPLOYEES` → Click `New` → Click `User`.
+- Create 3-5 different users; Custom name & Password. **Be sure to uncheck the box "User must change password at next logon. Remote Desktop logon does not allow this to happen.**
+- Log out of the Client VM as the admin user and logon using one of the client users you just created.
+
+---
+
+## This concludes Part 2 - Installing and onfiguring Active Directory on the Domain Controller. <br>
+**In the next part we will:**
+- Configure Group Policy.
+- Replicate account lockouts and unlocking user accounts within Active Directory.
+- Disabling user accounts within Active Directory.
