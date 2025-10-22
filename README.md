@@ -27,7 +27,7 @@ Open and log in to Azure: [https://azure.microsoft.com/](https://azure.microsoft
 - [Step 4 - Join Client VM to the Domain](#step-4---join-client-vm-to-the-domain)
 - [Step 5 - Verify Client VM is connected to the Domain](#step-5---verify-client-vm-is-connected-to-the-domain)
 - [Step 6 - Setup Remote Desktop Access for Users on Client VM](#step-6---setup-remote-desktop-access-for-users-on-client-vm)
-- [Step 7 - Create Employee (Client) Users in Active Directory](#step-7---create-employee-(client)-users-in-active-directory)
+- [Step 7 - Create Employee (Client) Users in Active Directory](#step-7---create-employee-client-users-in-active-directory)
 
 ---
 
