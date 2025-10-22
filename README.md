@@ -58,10 +58,13 @@ Inside the Server Manager click the flag icon at the top of the screen and selec
 
 [pic 2.3]
 
-After instillation the VM will restart and you will need to reconnect via Remote Desktop Connection as a **domain user** instead of a normal user.
+After installation the VM will restart and you will need to reconnect via Remote Desktop Connection using **domain credentials** instead of local credentials..
 - Use DC-1's VM Public IP Address.
 - Username: `mydomain.com\labuser`.
 - Password: Same as before.
+**Note: The account created when the Azure VM was first deployed (labuser in my case) functions as a local administrator before installing AD DS.
+Once the server is promoted to a Domain Controller, local accounts are no longer used. The built-in Administrator account becomes the Domain Administrator, responsible for managing users, computers, and security within the domain.**
+
 
 [pic 2.4]
 
@@ -72,14 +75,14 @@ After instillation the VM will restart and you will need to reconnect via Remote
 ---
 
 ### Step 3 - Create a Domain Admin User
-A Domain Administrator (or Domain Admin user) is a user account in Active Directory that has full administrative privileges over the domain.
+A Domain Administrator (or Domain Admin user) is a user account in Active Directory that has full administrative privileges over the domain.  This account differs from the built-in Domain Administrator account. This one represents an actual Administrative employee.
 
 From the start menu click the folder for `Windows Administrative Tools` and select `Active Directory Users and Computers`. 
 
 [pic 2.6]
 
-Create two **Organizational Units** (OU's) one for Employees and one for Admins. (what is an OU)
-First click the down arrow for `mydomain.com` to expand the Containers and OU's.
+Create two **Organizational Units** (OUs) one for Employees and one for Admins.
+First click the down arrow for `mydomain.com` to expand the Containers and OUs.
 
 1. Right click on `mydomain.com` → Select `New` → Click `Organizational Unit` → Name `_EMPLOYEES` → Click `OK`. 
 
@@ -93,7 +96,7 @@ First click the down arrow for `mydomain.com` to expand the Containers and OU's.
 - Create a Name, user logon name and password for your user.
 	- Uncheck change password at next logon.
 	- Check Password never expires.
-***In a realistic environment you would want the user to change their password on first logon for security reasons and have a password expiration date. Since we are playing the role of the user this is not necessary. Also, Remonte Desktop Connecttion doesnt allow for this.***
+***In a realistic environment you would want the user to change their password on first logon for security reasons and have a password expiration date. Since we are playing the role of the user this is not necessary. Also, Remote Desktop Connection doesn't allow for this.***
 
 [pic 2.7]
 
@@ -111,7 +114,7 @@ First click the down arrow for `mydomain.com` to expand the Containers and OU's.
 ### Step 4 - Join Client VM to the Domain
 Joining the Client VM to the domain connects it to the Active Directory environment managed by the Domain Controller. This allows the Client VM to use domain credentials, receive Group Policies, and access shared resources within the domain.
 
-- Logon to the Client VM via Remote Desktop Connection using the original user name and password you created when first setting up the VM.
+- Log in to the Client VM via Remote Desktop Connection using the original user name and password you created when first setting up the VM.
 - Right click the start menu and select `System`.
 - Click `Rename this PC (advanced)`.
 - Under the `Computer Name` tab click `Change`.
@@ -127,7 +130,7 @@ Joining the Client VM to the domain connects it to the Active Directory environm
 
 ### Step 5 - Verify Client VM is connected to the Domain
 
-- Logon to the DC-1 VM via Remote Desktop Connection as the Admin User we created in Step 3.
+- Log in to the DC-1 VM via Remote Desktop Connection as the Admin User we created in Step 3.
 - Use DC-1's VM Public IP Address.
 - Username: `mydomain.com\[Admin User logon name you created]`.
 - Password: `[Password you created for the Admin User]`.
@@ -152,16 +155,16 @@ Setting up Remote Desktop Access allows authorized domain users (employees) to c
 ---
 
 ### Step 7 - Create Employee (Client) Users in Active Directory
-These will be the domain user accounts that will represent employees.
+These will be the domain user accounts that will represent employees. These accounts will be used to test domain logons, Group Policy, and access control in later steps.
 
-- From the statr menu open `Active Directory Users and Computers`.
-- Click on `mydomian.com` → Right click on the OU `_EMPLOYEES` → Click `New` → Click `User`.
+- From the start menu open `Active Directory Users and Computers`.
+- Click on `mydomain.com` → Right click on the OU `_EMPLOYEES` → Click `New` → Click `User`.
 - Create 3-5 different users; Custom name & Password. **Be sure to uncheck the box "User must change password at next logon. Remote Desktop logon does not allow this to happen.**
-- Log out of the Client VM as the admin user and logon using one of the client users you just created.
+- Log out of the Client VM as the admin user and log in using one of the client users you just created.
 
 ---
 
-## This concludes Part 2 - Installing and onfiguring Active Directory on the Domain Controller. <br>
+## This concludes Part 2 - Installing and configuring Active Directory on the Domain Controller. <br>
 **In the next part we will:**
 - Configure Group Policy.
 - Replicate account lockouts and unlocking user accounts within Active Directory.
