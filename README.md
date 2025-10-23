@@ -38,12 +38,13 @@ Using the Public IP Address of your Domain Controller VM, remote desktop into yo
 
 - Click `Add roles and features` → From the left hand menu select `Server Roles` and click the box for `Active Directory Domain Services` → Click `Add Features`.
 
-[pic 2.1] 
+<img width="785" height="553" alt="2 1 adds" src="https://github.com/user-attachments/assets/29c84013-3fbe-4d2b-828f-8d329d91b619" />
+<br>
 
 - From the left hand menu select `Confirmation` and click the box for `Restart the destination server automatically if required` → Click `Yes` → Click `Install`.
 - After installation click `Close`.
 
-[pic 2.2]
+<img width="777" height="559" alt="2 2 confirm" src="https://github.com/user-attachments/assets/99774524-07fb-4603-b6d4-c6ac82da63cb" />
 
 ---
 
@@ -56,7 +57,8 @@ Inside the Server Manager click the flag icon at the top of the screen and selec
 - Create a Directory Services Restore Mode (DSRM) password.
 - Click `Next` until you get to the option to Install → Click `Install`.
 
-[pic 2.3]
+<img width="574" height="330" alt="2 3 promote" src="https://github.com/user-attachments/assets/49f700b1-a04c-4d22-877e-92e8868308bd" />
+<br>
 
 After installation the VM will restart and you will need to reconnect via Remote Desktop Connection using **domain credentials** instead of local credentials..
 - Use DC-1's VM Public IP Address.
@@ -65,12 +67,12 @@ After installation the VM will restart and you will need to reconnect via Remote
 **Note: The account created when the Azure VM was first deployed (labuser in my case) functions as a local administrator before installing AD DS.
 Once the server is promoted to a Domain Controller, local accounts are no longer used. The built-in Administrator account becomes the Domain Administrator, responsible for managing users, computers, and security within the domain.**
 
+<img width="401" height="479" alt="2 4 domain user" src="https://github.com/user-attachments/assets/5e19a4e2-8e17-4c0a-ba7f-2fc54f9937c7" />
+<br>
 
-[pic 2.4]
+**Under Roles and Server Groups you should now see Active Directory Domain Services (AD DS) along with other Roles.**
 
-**Under Roles and Server Groups you should now see Active Directory Domain Services along with other Roles.**
-
-[pic 2.5]
+<img width="1296" height="350" alt="2 5 roles" src="https://github.com/user-attachments/assets/5bac55a4-3389-45c4-b163-30a68aa133dc" />
 
 ---
 
@@ -79,9 +81,11 @@ A Domain Administrator (or Domain Admin user) is a user account in Active Direct
 
 From the start menu click the folder for `Windows Administrative Tools` and select `Active Directory Users and Computers`. 
 
-[pic 2.6]
+<img width="640" height="676" alt="2 6 ad users" src="https://github.com/user-attachments/assets/b4ea1269-01f4-45c9-8b91-1f83501dc33d" />
+<br><br>
 
 Create two **Organizational Units** (OUs) one for Employees and one for Admins.
+
 First click the down arrow for `mydomain.com` to expand the Containers and OUs.
 
 1. Right click on `mydomain.com` → Select `New` → Click `Organizational Unit` → Name `_EMPLOYEES` → Click `OK`. 
@@ -98,7 +102,8 @@ First click the down arrow for `mydomain.com` to expand the Containers and OUs.
 	- Check Password never expires.
 ***In a realistic environment you would want the user to change their password on first logon for security reasons and have a password expiration date. Since we are playing the role of the user this is not necessary. Also, Remote Desktop Connection doesn't allow for this.***
 
-[pic 2.7]
+<img width="434" height="373" alt="2 7 create admin" src="https://github.com/user-attachments/assets/943232d3-0f78-4458-95c6-37dd6183cd99" />
+<br><br>
 
 **Set the User as an Admin.**
 
@@ -107,7 +112,7 @@ First click the down arrow for `mydomain.com` to expand the Containers and OUs.
 - Type `Domain Admins` → Click `Check Names`.
 - Click `OK` → Click `Apply` → Click `OK`.
 
-[pic 2.8}
+<img width="868" height="534" alt="2 8 add member" src="https://github.com/user-attachments/assets/0588e6db-77ca-4271-a349-7a310a1179f2" />
 
 ---
 
@@ -122,9 +127,10 @@ Joining the Client VM to the domain connects it to the Active Directory environm
 - Enter the Domain User Name and Password for you Domain Admin account.
 - Restart the VM to apply changes.
 
-[pic 2.9]
+<img width="1192" height="512" alt="2 9 join client to domain" src="https://github.com/user-attachments/assets/c3e467de-a44f-4760-86da-a53e3b8263ed" />
+<br><br>
 
-[pic 3.0]
+<img width="295" height="145" alt="3 0 welcome" src="https://github.com/user-attachments/assets/ebdf1282-f9b6-4fef-b744-8ce5b55a1dac" />
 
 ---
 
@@ -139,7 +145,7 @@ From the start menu open `Active Directory Users and Computers`.
 - Click the dropdown for `mydomain.com` to expand the folders
 - Click on the `Computers` container and verify the Client VM shows up.
 
-[pic 3.1]
+<img width="723" height="281" alt="3 1 client connected" src="https://github.com/user-attachments/assets/a52ec6d1-31f0-4360-9b30-ad880584f6c1" />
 
 ---
 ### Step 6 - Setup Remote Desktop Access for Users on Client VM
@@ -150,7 +156,7 @@ Setting up Remote Desktop Access allows authorized domain users (employees) to c
 - Under User accounts click on `Select user that can remotely access this PC`.
 - Click `Add` → Type `domain users` in the object names box and click `Check Names` → Click `OK`.
 
-[pic 3.2]
+<img width="1196" height="926" alt="3 2 rdp for users" src="https://github.com/user-attachments/assets/4fb4a443-15cb-483a-8333-fed73df59150" />
 
 ---
 
@@ -164,8 +170,8 @@ These will be the domain user accounts that will represent employees. These acco
 
 ---
 
-## This concludes Part 2 - Installing and configuring Active Directory on the Domain Controller. <br>
+## This concludes Part 2 - Installing and Configuring Active Directory on the Domain Controller VM. <br>
 **In the next part we will:**
 - Configure Group Policy.
-- Replicate account lockouts and unlocking user accounts within Active Directory.
-- Disabling user accounts within Active Directory.
+- Replicate account lockouts and practice unlocking accounts.
+- Disable user accounts.
