@@ -6,10 +6,11 @@
 
 This tutorial outlines the installation and configuration of **Active Directory Domain Services (AD DS)** on the Domain Controller. After installation, we will create an administrative user account, join the Client VM to the domain, and verify the Client VM is connected to the Domain.
 
-<h2>Environments and Technologies Used</h2>
+<h2>Environments, Technologies and Tools Used</h2>
 
 - Microsoft Azure (Virtual Machines/Compute)
 - Remote Desktop
+- Active Directory Domain Services
 
 <h2>Operating Systems Used </h2>
 
